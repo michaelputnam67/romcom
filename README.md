@@ -28,7 +28,7 @@ On the home page, you’ll see several buttons to help you navigate the site.
 - To make your own cover, type the title and descriptors of your choice into the respective input fields.
 - You can choose an image of your choice, and copy the address into the cover field.
 - The form won't let you complete your cover until all four fields are filled out:
-
+![Example of form when input is missing.](https://user-images.githubusercontent.com/96206823/153771015-da09035f-9bf6-4fd1-bc40-6add0c7ef111.png)
 - Congratulations, you’ve made your own new cover! You can save it if you’d like and view it in your saved covers.
 
 ### Future Additions
