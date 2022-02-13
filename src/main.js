@@ -10,6 +10,10 @@ var makeNewButton = document.querySelector('.make-new-button');
 var makeNewBookButton = document.querySelector('.create-new-book-button');
 var saveCover = document.querySelector('.save-cover-button');
 var savedCoversButton = document.querySelector('.view-saved-button');
+var coverGlobal = document.querySelector('.user-cover');
+var titleGlobal = document.querySelector('.user-title')
+var descriptor1Global = document.querySelector('.user-desc1')
+var descriptor2Global = document.querySelector('.user-desc2')
 
 // Global Variables:
 var savedCovers = [
@@ -26,11 +30,18 @@ makeNewButton.addEventListener('click', toggleMakeOwn);
 homeButton.addEventListener('click', toggleHomeButton);
 savedCoversButton.addEventListener('click', clickViewSave);
 saveCover.addEventListener('click', saveCurrentCover);
-makeNewBookButton.addEventListener('click', function() {
-  event.preventDefault();
-  makeNewBook();
-  toggleHomeButton();
-  displayNewCover(currentCover);
+// original:
+// makeNewBookButton.addEventListener('click', function() {
+//   event.preventDefault();
+//   makeNewBook();
+//   toggleHomeButton();
+//   displayNewCover(currentCover);
+// });
+
+
+makeNewBookButton.addEventListener('click', function(){
+  event.preventDefault()
+  makeNewBook()
 });
 
 // Randomizer:
@@ -117,13 +128,13 @@ function displayNewCover(newCover) {
     addSavedView();
   };
   
-  function toggleHomeButton() {
-    removeSavedView();
-    removeFormView();
-    addRandomCover();
-    addHomeView();
-    removeHomeButton();
-    addSaveCover();
+  function toggleHomeButton() {    
+      removeSavedView();
+      removeFormView();
+      addRandomCover();
+      addHomeView();
+      removeHomeButton();
+      addSaveCover();
   };
   
   function clickViewSave() {
@@ -133,11 +144,12 @@ function displayNewCover(newCover) {
   
   // This function takes inputs from a user and outputs them to addToArrays: 
   function makeNewBook() {
-    var coverInput = document.querySelector('.user-cover').value;
-    var titleInput = document.querySelector('.user-title').value;
-    var userDescriptor1 = document.querySelector('.user-desc1').value;
-    var userDescriptor2 = document.querySelector('.user-desc2').value;
-    addToArrays(coverInput, titleInput, userDescriptor1, userDescriptor2);
+    var coverInput = coverGlobal.value;
+    var titleInput = titleGlobal.value;
+    var userDescriptor1 = descriptor1Global.value;
+    var userDescriptor2 = descriptor2Global.value;
+    // addToArrays(coverInput, titleInput, userDescriptor1, userDescriptor2);
+    checkInput(coverInput, titleInput, userDescriptor1, userDescriptor2);
   };
   
   // This function takes arguments from makeNewBook and adds them to the beginning of our arrays and uses those to instantiate a 
@@ -179,3 +191,47 @@ function displayNewCover(newCover) {
       };
     };
   };
+
+
+function checkInput(cover, title, descriptor1, descriptor2) {
+  if(cover && title && descriptor1 && descriptor2) {
+    addToArrays(cover, title, descriptor1, descriptor2);
+    // event.preventDefault();
+    toggleHomeButton();
+    displayNewCover(currentCover);
+  } else {
+    // event.preventDefault()
+    coverAlert(cover)
+    titleAlert(title)
+    descriptor1Alert(descriptor1)
+    descriptor2Alert(descriptor2)
+  };
+};
+
+function coverAlert(cover) {
+  if(!cover){
+    coverGlobal.style.borderColor = 'red' 
+    coverGlobal.placeholder = 'Please upload a scandalous cover image!'
+  };  
+};
+
+function titleAlert(title) {
+  if(!title){
+    titleGlobal.style.borderColor = 'red' 
+    titleGlobal.placeholder = 'Please provide an alluring title!'
+  };
+};
+
+function descriptor1Alert(descriptor1) {
+  if(!descriptor1){
+    descriptor1Global.style.borderColor = 'red' 
+    descriptor1Global.placeholder = 'Please provide a romantic descriptor!'
+  };
+};
+
+function descriptor2Alert(descriptor2) {
+  if(!descriptor2){
+    descriptor2Global.style.borderColor = 'red' 
+    descriptor2Global.placeholder = 'Please provide another spicy descriptor!'
+  };
+};
