@@ -1,4 +1,4 @@
-// Query Selectors: 👇
+
 var bookCover = document.querySelector('.cover-image');
 var bookTitle = document.querySelector('.cover-title');
 var firstDescriptor = document.querySelector('.tagline-1');
@@ -11,57 +11,40 @@ var makeNewBookButton = document.querySelector('.create-new-book-button');
 var saveCover = document.querySelector('.save-cover-button');
 var savedCoversButton = document.querySelector('.view-saved-button');
 var coverGlobal = document.querySelector('.user-cover');
-var titleGlobal = document.querySelector('.user-title')
-var descriptor1Global = document.querySelector('.user-desc1')
-var descriptor2Global = document.querySelector('.user-desc2')
+var titleGlobal = document.querySelector('.user-title');
+var descriptor1Global = document.querySelector('.user-desc1');
+var descriptor2Global = document.querySelector('.user-desc2');
 
-// Global Variables:
 var savedCovers = [
   new Cover("http://3.bp.blogspot.com/-iE4p9grvfpQ/VSfZT0vH2UI/AAAAAAAANq8/wwQZssi-V5g/s1600/Do%2BNot%2BForsake%2BMe%2B-%2BImage.jpg",
   "Sunsets and Sorrows", "sunsets", "sorrows")
 ];
 var currentCover;
 
-
-// Event Listeners: 👇
 window.addEventListener("load", displayNewCover);
 randomButton.addEventListener("click", displayNewCover);
 makeNewButton.addEventListener('click', toggleMakeOwn);
 homeButton.addEventListener('click', toggleHomeButton);
 savedCoversButton.addEventListener('click', clickViewSave);
 saveCover.addEventListener('click', saveCurrentCover);
-// original:
-// makeNewBookButton.addEventListener('click', function() {
-//   event.preventDefault();
-//   makeNewBook();
-//   toggleHomeButton();
-//   displayNewCover(currentCover);
-// });
-
 
 makeNewBookButton.addEventListener('click', function(){
   event.preventDefault()
   makeNewBook()
 });
 
-// Randomizer:
-
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 };
 
-// Event Handlers: 👇
-
-//Function to display new cover created by a user also with default randomized values: 
 function displayNewCover(newCover) {
   bookCover.src = newCover.cover || covers[getRandomIndex(covers)];
   bookTitle.innerText = newCover.title || titles[getRandomIndex(titles)];
   firstDescriptor.innerText = newCover.tagline1 || descriptors[getRandomIndex(descriptors)];
   secondDescriptor.innerText = newCover.tagline2 || descriptors[getRandomIndex(descriptors)];
   currentCover = new Cover(bookCover.src, bookTitle.innerText, firstDescriptor.innerText, secondDescriptor.innerText);
-  }
+  };
 
-  // Functions used to toggle between views:
   function removeHomeView() {
     document.querySelector('.home-view').classList.add('hidden');
   };
@@ -142,18 +125,14 @@ function displayNewCover(newCover) {
     displaySavedCovers();
   };
   
-  // This function takes inputs from a user and outputs them to addToArrays: 
   function makeNewBook() {
     var coverInput = coverGlobal.value;
     var titleInput = titleGlobal.value;
     var userDescriptor1 = descriptor1Global.value;
     var userDescriptor2 = descriptor2Global.value;
-    // addToArrays(coverInput, titleInput, userDescriptor1, userDescriptor2);
     checkInput(coverInput, titleInput, userDescriptor1, userDescriptor2);
   };
   
-  // This function takes arguments from makeNewBook and adds them to the beginning of our arrays and uses those to instantiate a 
-  // new cover class:
   function addToArrays(coverInput, titleInput, userDescriptor1, userDescriptor2) {
     covers.unshift(coverInput);
     titles.unshift(titleInput);
@@ -162,14 +141,12 @@ function displayNewCover(newCover) {
     currentCover = new Cover(covers[0], titles[0], descriptors[1], descriptors[0]);
   };
   
-  // This functions adds the current cover to the saved covers array while restricting duplications:
   function saveCurrentCover() {
     if(!savedCovers.includes(currentCover)) {
       savedCovers.push(currentCover);
     };
   };
   
-  // Adds our saved covers and appropriate data to the Html to be displayed: 
   function displaySavedCovers() {
     var display = [];
     savedCoversSection.innerHTML = display;
@@ -182,7 +159,6 @@ function displayNewCover(newCover) {
     }; 
   };
   
-  // Removes a cover when double clicked:
   function deleteCover(id) {
     for(var i = 0; i <= savedCovers.length; i++) {
       if (`${savedCovers[i].id}` === id) {
@@ -192,20 +168,21 @@ function displayNewCover(newCover) {
     };
   };
 
-
 function checkInput(cover, title, descriptor1, descriptor2) {
   if(cover && title && descriptor1 && descriptor2) {
     addToArrays(cover, title, descriptor1, descriptor2);
-    // event.preventDefault();
     toggleHomeButton();
     displayNewCover(currentCover);
   } else {
-    // event.preventDefault()
-    coverAlert(cover)
-    titleAlert(title)
-    descriptor1Alert(descriptor1)
-    descriptor2Alert(descriptor2)
+    lackOfInputAlert(cover, title, descriptor1, descriptor2)
   };
+};
+
+function lackOfInputAlert(cover, title, descriptor1, descriptor2) {
+  coverAlert(cover);
+  titleAlert(title);
+  descriptor1Alert(descriptor1);
+  descriptor2Alert(descriptor2);
 };
 
 function coverAlert(cover) {
